@@ -1,0 +1,47 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.github.aesoper101.intellij.kratos</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Intellij-Kratos</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="weilanzhuan@163.com" url="https://www.yourcompany.com">aesoper</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[1
+    Enter short description for your plugin here.<br>
+    <em>most HTML tags may be used</em>
+  ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.go</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.database</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <directoryProjectGenerator
+                implementation="com.github.aesoper101.intellij.kratos.wizard.KratosProjectGenerator"/>
+        <moduleBuilder builderClass="com.github.aesoper101.intellij.kratos.wizard.KratosModuleBuilder"/>
+        <applicationService serviceImplementation="com.github.aesoper101.intellij.kratos.configuration.KratosTemplateConfiguration" />
+
+        <fileTemplateGroup implementation="com.github.aesoper101.intellij.kratos.KratosFileTemplateGroupDescriptorFactory"/>
+
+        <errorHandler implementation="com.github.aesoper101.intellij.kratos.diagnostic.KratosErrorReportSubmitter" />
+       <internalFileTemplate name="2a.go" />
+
+
+        <notificationGroup id="Kratos notification group"
+                           displayType="BALLOON"
+                           bundle="messages.KratosBundle"
+                           key="notification.group.name"/>
+    </extensions>
+</idea-plugin>

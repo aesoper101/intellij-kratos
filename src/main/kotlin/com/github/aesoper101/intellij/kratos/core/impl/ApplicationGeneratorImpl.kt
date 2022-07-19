@@ -8,11 +8,11 @@ import com.github.aesoper101.intellij.kratos.core.AbstractApplicationGenerator
 import com.github.aesoper101.intellij.kratos.project.KratosNewProjectSettings
 import com.github.aesoper101.intellij.kratos.utils.toCamelCase
 import com.intellij.ide.fileTemplates.FileTemplateManager
-import com.intellij.ide.fileTemplates.FileTemplateUtil
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.module.Module
-import com.intellij.openapi.util.text.StringUtil
+import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VfsUtil
+import com.intellij.openapi.vfs.VirtualFile
+import java.io.File
 import java.util.*
 
 
@@ -20,6 +20,25 @@ class ApplicationGeneratorImpl(module: Module, settings: KratosNewProjectSetting
     AbstractApplicationGenerator(module, settings) {
     override fun generateCmd(applicationDirectory: VirtualFile) {
         println("generateCmd")
+
+        val f = javaClass.getResource("/templates")!!
+
+        println(f.path)
+        println(f.file)
+        val file = VfsUtil.findFileByURL(f)
+        println(file?.isDirectory)
+
+//        ResourceUtil.
+//        File()
+
+//        val content =
+//            ResourceUtil.getResourceAsStream(javaClass.classLoader, "/templates", "text.txt").readAllBytes().toString()
+//        println(content)
+
+
+//
+//        VirtualFileManager.getInstance().findFileByNioPath()
+
     }
 
     override fun generateInternal(applicationDirectory: VirtualFile) {

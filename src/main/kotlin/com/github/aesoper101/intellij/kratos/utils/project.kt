@@ -26,3 +26,9 @@ fun Project.backgroundTask(
         }
     })
 }
+
+fun Project.runProcessWithProgressSynchronously(name: String, cancellable: Boolean = false, callback: () -> Unit) {
+    ProgressManager.getInstance().runProcessWithProgressSynchronously({
+        callback()
+    }, name, cancellable, this)
+}

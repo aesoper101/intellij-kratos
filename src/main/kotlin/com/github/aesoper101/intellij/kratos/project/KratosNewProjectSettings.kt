@@ -11,5 +11,5 @@ data class KratosNewProjectSettings(
     var kratosSettings: KratosConfiguration,
     var moduleName: String,
     var appName: String,
-    var appFirstServiceName: String
+//    var appFirstServiceName: String
 ) : VgoNewProjectSettings(goSdk, envs, true, false)

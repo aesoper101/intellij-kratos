@@ -44,11 +44,11 @@ intellij {
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
 }
 
-dependencies {
-    implementation("org.freemarker:freemarker:2.3.31")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    compileOnly("org.zeroturnaround:zt-exec:1.12")
-}
+//dependencies {
+//    implementation("org.freemarker:freemarker:2.3.31")
+//    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+//    compileOnly("org.zeroturnaround:zt-exec:1.12")
+//}
 
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin

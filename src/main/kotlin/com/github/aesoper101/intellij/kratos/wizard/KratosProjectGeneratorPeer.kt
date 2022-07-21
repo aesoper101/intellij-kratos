@@ -16,6 +16,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.LabeledComponent
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
+import com.intellij.openapi.util.text.StringUtil
 
 import com.intellij.ui.dsl.builder.*
 import com.intellij.util.ui.UI.PanelFactory
@@ -33,7 +34,6 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
 
     private val firstAppNameJTextField = JTextField("helloword")
 
-    private val firstAppServiceNameJTextField = JTextField("greet")
 
     override val kratosSettings: KratosConfiguration = KratosConfiguration.getInstance()
 
@@ -50,8 +50,6 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
 
         gird.add(PanelFactory.panel(firstAppNameJTextField).withLabel(KratosBundle.message("module.builder.appName")))
 
-        gird.add(PanelFactory.panel(firstAppServiceNameJTextField).withLabel(KratosBundle.message("module.builder.appServiceName")))
-
         gird.add(PanelFactory.panel(myEnvironmentField).withLabel(KratosBundle.message("module.builder.generator.peer.env")))
 
         gird.add(PanelFactory.panel(myModuleNameJTextField).withLabel(KratosBundle.message("module.builder.name")))
@@ -65,13 +63,13 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
 
 
     override fun getSettings(): KratosNewProjectSettings {
+
         return KratosNewProjectSettings(
             sdkFromCombo,
             myEnvironmentField.envs,
             kratosSettings,
             myModuleNameJTextField.text,
             firstAppNameJTextField.text,
-            firstAppServiceNameJTextField.text
         )
     }
 

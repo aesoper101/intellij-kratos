@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	"${ModuleName}/app/${AppName}/internal/conf"
+	"${ModuleName}#if(${IsMultipart})/app/${AppName}#end/internal/conf"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/config"
 	"github.com/go-kratos/kratos/v2/config/file"

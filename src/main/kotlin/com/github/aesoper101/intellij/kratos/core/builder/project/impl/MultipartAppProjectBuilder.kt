@@ -19,7 +19,7 @@ class MultipartAppProjectBuilder(module: Module, settings: KratosNewProjectSetti
             Pair("ModuleName", settings.moduleName),
             Pair("AppName", settings.appName),
             Pair("CamelAppName", settings.appName),
-            Pair("IsMultipart", false)
+            Pair("IsMultipart", true)
         )
 
         // third_party
@@ -158,7 +158,10 @@ class MultipartAppProjectBuilder(module: Module, settings: KratosNewProjectSetti
 
         // go.mod
         assets.add(getGoModGeneratorAsset())
-
+        // Dockerfile
+        assets.add(GeneratorTemplateFile("app/${settings.appName}/Dockerfile", ".dockerfile", props))
+        // Makefile
+        assets.add(GeneratorTemplateFile("app/${settings.appName}/Makefile", ".makefile",props))
         // app/${settings.appName}/cmd
         assets.add(
             GeneratorTemplateFile(

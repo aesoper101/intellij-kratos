@@ -6,6 +6,8 @@ import com.github.aesoper101.intellij.kratos.utils.ProcessEntity
 import com.github.aesoper101.intellij.kratos.utils.backgroundTask
 import com.github.aesoper101.intellij.kratos.utils.runProcessWithProgressSynchronously
 import com.intellij.execution.process.ProcessOutput
+import com.intellij.ide.fileTemplates.FileTemplateManager
+import com.intellij.ide.fileTemplates.FileTemplateUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
@@ -33,7 +35,7 @@ class ApiProtoGenerateEvent : GenerateEvent {
             ExecUtils.runCmd(object : ProcessEntity(project, "protoc", params, projectDirectory.path) {
                 override fun afterRun(output: ProcessOutput) {
                     println("Convert api ${file.path} to go file success")
-                    file.parent?.refresh(true, true)
+//                    file.parent?.refresh(true, true)
                 }
             })
         })
@@ -57,7 +59,7 @@ class ConfProtoGenerateEvent : GenerateEvent {
             ExecUtils.runCmd(object : ProcessEntity(project, "protoc", params, projectDirectory.path) {
                 override fun afterRun(output: ProcessOutput) {
                     println("Convert conf ${file.path} to go file success")
-                    file.parent?.refresh(true, true)
+//                    file.parent?.refresh(true, true)
                 }
             })
         })
@@ -74,7 +76,7 @@ class WireGenerateEvent : GenerateEvent {
             ExecUtils.runCmd(object : ProcessEntity(project, "wire", params, wirePath) {
                 override fun afterRun(output: ProcessOutput) {
                     println("Create wire_gen success")
-                    file.parent?.refresh(true, true)
+//                    file.parent?.refresh(true, true)
                 }
             })
         })

@@ -12,29 +12,8 @@ final class KratosFileTemplateGroupDescriptorFactory : FileTemplateGroupDescript
     override fun getFileTemplatesDescriptor(): FileTemplateGroupDescriptor {
         val rootGroup = FileTemplateGroupDescriptor("kratos", GoIcons.ICON)
 
-
-//        KRATOS_THIRD_PARTY_TEMPLATES.forEach {
-//            rootGroup.addTemplate(FileTemplateDescriptor(
-//                it.fileTemplateName,
-//                GoIcons.ICON
-//            ))
-//        }
-//
-//
-//        KRATOS_CONF_PROTO_TEMPLATES.forEach {
-//            rootGroup.addTemplate(FileTemplateDescriptor(
-//                it.fileTemplateName,
-//                GoIcons.ICON
-//            ))
-//        }
-//
-//        KRATOS_BIZ_TEMPLATES.forEach {
-//            rootGroup.addTemplate(FileTemplateDescriptor(
-//                it.fileTemplateName,
-//                GoIcons.ICON
-//            ))
-//        }
-
+//        rootGroup.addTemplate(FileTemplateDescriptor(".dockerfile"))
+//        rootGroup.addTemplate(FileTemplateDescriptor(".makefile"))
 
         return rootGroup
     }

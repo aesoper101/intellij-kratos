@@ -58,6 +58,9 @@ class GeneratorProcessor(private val module: Module) {
             }
 
         } catch (e: Exception) {
+            println("===================================================")
+            println(e.message)
+            println("===================================================")
             throw TemplateProcessingException(e)
         }
         val file = createFile(outputDirectory, asset.targetFileOrDirName)

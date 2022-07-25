@@ -4,7 +4,7 @@ import (
 	"context"
 
 	v1 "${ModuleName}/api/${AppName}/v1"
-	"${ModuleName}/app/${AppName}/internal/biz"
+	"${ModuleName}#if(${IsMultipart})/app/${AppName}#end/internal/biz"
 )
 
 // GreeterService is a greeter service.

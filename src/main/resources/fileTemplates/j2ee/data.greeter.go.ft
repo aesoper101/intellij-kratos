@@ -3,7 +3,7 @@ package data
 import (
 	"context"
 
-	"${ModuleName}/app/${AppName}/internal/biz"
+	"${ModuleName}#if(${IsMultipart})/app/${AppName}#end/internal/biz"
 	"github.com/go-kratos/kratos/v2/log"
 )
 

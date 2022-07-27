@@ -34,24 +34,24 @@ object ExecUtils {
     }
 
 
-    @Suppress("unused")
-    private fun run(command: List<String>, workDirectory: String?): ProcessOutput {
-        val commandLine = GeneralCommandLine(command)
-        if (workDirectory != null && StringUtil.isNotEmpty(workDirectory)) {
-            commandLine.workDirectory = File(workDirectory)
-        }
-
-        return ExecUtil.execAndGetOutput(commandLine)
-    }
-
-    fun runCmd(pe: ProcessEntity) {
-        if (!pe.beforeRun()) {
-            return
-        }
-
-        val result = run(pe.command, pe.workDirectory)
-        pe.afterRun(result)
-    }
+//    @Suppress("unused")
+//    private fun run(command: List<String>, workDirectory: String?): ProcessOutput {
+//        val commandLine = GeneralCommandLine(command)
+//        if (workDirectory != null && StringUtil.isNotEmpty(workDirectory)) {
+//            commandLine.workDirectory = File(workDirectory)
+//        }
+//
+//        return ExecUtil.execAndGetOutput(commandLine)
+//    }
+//
+//    fun runCmd(pe: ProcessEntity) {
+//        if (!pe.beforeRun()) {
+//            return
+//        }
+//
+//        val result = run(pe.command, pe.workDirectory)
+//        pe.afterRun(result)
+//    }
 
 }
 

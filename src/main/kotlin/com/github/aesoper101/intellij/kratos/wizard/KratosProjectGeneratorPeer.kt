@@ -30,9 +30,7 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
 
     private val myEnvironmentField = VgoEnvironmentVariablesField(false)
 
-    private val myModuleNameJTextField = JTextField()
 
-    private val firstAppNameJTextField = JTextField("helloword")
 
 
     override val kratosSettings: KratosConfiguration = KratosConfiguration.getInstance()
@@ -48,11 +46,11 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
 
         panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
 
-        gird.add(PanelFactory.panel(firstAppNameJTextField).withLabel(KratosBundle.message("module.builder.appName")))
+
 
         gird.add(PanelFactory.panel(myEnvironmentField).withLabel(KratosBundle.message("module.builder.generator.peer.env")))
 
-        gird.add(PanelFactory.panel(myModuleNameJTextField).withLabel(KratosBundle.message("module.builder.name")))
+
 
         gird.add(PanelFactory.panel(createTemplateSwitchPanel()).withLabel(KratosBundle.message("module.builder.type")))
 
@@ -68,8 +66,6 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
             sdkFromCombo,
             myEnvironmentField.envs,
             kratosSettings,
-            myModuleNameJTextField.text,
-            firstAppNameJTextField.text,
         )
     }
 

@@ -3,28 +3,27 @@ package com.github.aesoper101.intellij.kratos.core.builder.project
 import com.github.aesoper101.intellij.kratos.core.GeneratorAsset
 import com.github.aesoper101.intellij.kratos.core.GeneratorAssetContext
 import com.github.aesoper101.intellij.kratos.core.GeneratorProcessor
-import com.github.aesoper101.intellij.kratos.core.GeneratorTemplateFile
 import com.github.aesoper101.intellij.kratos.notification.NotificationManager
 import com.github.aesoper101.intellij.kratos.project.KratosNewProjectSettings
 import com.github.aesoper101.intellij.kratos.utils.ExecUtils
-import com.github.aesoper101.intellij.kratos.utils.FileReload
 import com.github.aesoper101.intellij.kratos.utils.ProcessEntity
 import com.github.aesoper101.intellij.kratos.utils.backgroundTask
-import com.goide.psi.impl.GoPackage
-import com.goide.sdk.GoSdkService
-import com.goide.vendor.GoVendoringUtil
+import com.goide.actions.tool.GoFmtProjectAction
+import com.goide.sdk.GoSdkUtil
+import com.goide.util.GoExecutor
 import com.intellij.execution.process.ProcessOutput
-import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.WriteAction
-import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.module.Module
-import com.intellij.openapi.util.text.StringUtil
-import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.psi.PsiManager
-import com.intellij.psi.impl.file.impl.FileManager
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.util.Consumer
 import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.nio.charset.Charset
 import java.util.*
 
 
@@ -59,23 +58,53 @@ abstract class AbstractProjectGenerator(
     protected abstract fun getGeneratorAssets(): List<GeneratorAsset>
 
 
-    open fun getGoModGeneratorAsset(): GeneratorAsset {
-        val props = mapOf(
-            Pair("GoVersion", settings.sdk.version),
-            Pair("ModuleName", settings.moduleName)
-        )
+    open fun afterDoGenerate(projectDirectory: VirtualFile) {
+        goFmtProject()
 
-        return GeneratorTemplateFile("go.mod", "go.mod", props)
+        goModTidy(projectDirectory)
     }
 
-    open fun afterDoGenerate(projectDirectory: VirtualFile) {
-        module.project.backgroundTask("go mod tidy", callback = {
-            ExecUtils.runCmd(object : ProcessEntity(module.project, "go", listOf("mod", "tidy"), projectDirectory.path) {
-                override fun afterRun(output: ProcessOutput) {
-                    println("go mod tidy success")
-                    projectDirectory.refresh(true, true)
-                }
-            })
-        })
+    @Suppress("DialogTitleCapitalization")
+    private fun goModTidy(projectDirectory: VirtualFile) {
+        val presentationName = "go mod tidy"
+        GoExecutor.`in`(module.project, module).disablePty().withPresentableName(presentationName)
+            .withWorkDirectory(projectDirectory.path).withParameters("mod", "tidy").executeWithProgress()
+    }
+
+    private fun goFmtProject() {
+        FileDocumentManager.getInstance().saveAllDocuments()
+        val var3: Iterator<*> = GoSdkUtil.getGoModules(module.project).iterator()
+
+        while (var3.hasNext()) {
+            val module = var3.next() as Module
+            val var5 = ModuleRootManager.getInstance(module).contentRoots
+            val var6 = var5.size
+            for (var7 in 0 until var6) {
+                val file = var5[var7]
+                val presentation = "go fmt " + file.path
+
+
+                GoExecutor.`in`(module.project, module).disablePty().withPresentableName(presentation)
+                    .withWorkDirectory(file.path).withParameters("fmt", "./...").executeWithProgress(
+                        true, true
+                    ) {
+                        VfsUtil.markDirtyAndRefresh(
+                            true, true, true, file
+                        )
+                    }
+            }
+        }
+    }
+
+    @Throws(IOException::class)
+    protected fun copyToString(inputStream: InputStream): String {
+        val out = StringBuilder()
+        val reader = InputStreamReader(inputStream, Charset.forName("utf8"))
+        val buffer = CharArray(4096)
+        var bytesRead: Int
+        while (reader.read(buffer).also { bytesRead = it } != -1) {
+            out.append(buffer, 0, bytesRead)
+        }
+        return out.toString()
     }
 }

@@ -34,9 +34,6 @@ class KratosProjectGenerator : GoProjectGenerator<KratosNewProjectSettings>() {
     override fun validate(baseDirPath: String): ValidationResult = ValidationResult.OK
 
     override fun doGenerateProject(p0: Project, p1: VirtualFile, settings: KratosNewProjectSettings, module: Module) {
-        if (StringUtil.isEmpty(settings.moduleName.trim()) && StringUtil.isNotEmpty(p1.path)) {
-            settings.moduleName = p1.path.substringAfterLast("/")
-        }
         ProjectGenerator(module, settings).doGenerator(true, p1.path)
     }
 
@@ -63,9 +60,7 @@ class KratosModuleBuilder : GoModuleBuilderBase<KratosNewProjectSettings> {
         }
 
 
-        if (StringUtil.isEmpty(settings.moduleName.trim()) && StringUtil.isNotEmpty(this.contentEntryPath)) {
-            settings.moduleName = this.contentEntryPath?.substringAfterLast("/").toString()
-        }
+
         ProjectGenerator(module, settings).doGenerator(isCreatingNewProject, this.contentEntryPath)
     }
 }

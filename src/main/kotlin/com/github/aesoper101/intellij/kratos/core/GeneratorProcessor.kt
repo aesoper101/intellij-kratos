@@ -66,7 +66,7 @@ class GeneratorProcessor(private val module: Module) {
         val file = createFile(outputDirectory, asset.targetFileOrDirName)
         VfsUtil.saveText(file, sourceCode)
 
-        asset.evt?.postGenerate(module.project, outputDirectory, file )
+        asset.evt?.postGenerate(module.project, outputDirectory, file)
     }
 
     private fun generateEmptyDirectory(
@@ -90,7 +90,11 @@ class GeneratorProcessor(private val module: Module) {
                 VfsUtil.copyDirectory(
                     null,
                     resourceFile,
-                    VfsUtil.createDirectoryIfMissing(outputDirectory, asset.targetFileOrDirName),
+                    if (asset.targetFileOrDirName == "." || asset.targetFileOrDirName == "") {
+                        outputDirectory
+                    } else {
+                        VfsUtil.createDirectoryIfMissing(outputDirectory, asset.targetFileOrDirName)
+                    },
                     null
                 )
             }

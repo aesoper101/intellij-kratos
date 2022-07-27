@@ -9,7 +9,4 @@ data class KratosNewProjectSettings(
     var goSdk: GoSdk,
     var envs: Map<String, String> = emptyMap(),
     var kratosSettings: KratosConfiguration,
-    var moduleName: String,
-    var appName: String,
-//    var appFirstServiceName: String
 ) : VgoNewProjectSettings(goSdk, envs, true, false)

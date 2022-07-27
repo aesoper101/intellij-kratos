@@ -31,17 +31,48 @@
         <directoryProjectGenerator
                 implementation="com.github.aesoper101.intellij.kratos.wizard.KratosProjectGenerator"/>
         <moduleBuilder builderClass="com.github.aesoper101.intellij.kratos.wizard.KratosModuleBuilder"/>
-        <applicationService serviceImplementation="com.github.aesoper101.intellij.kratos.configuration.KratosTemplateConfiguration" />
+        <applicationService
+                serviceImplementation="com.github.aesoper101.intellij.kratos.configuration.KratosTemplateConfiguration"/>
 
-        <fileTemplateGroup implementation="com.github.aesoper101.intellij.kratos.KratosFileTemplateGroupDescriptorFactory"/>
+        <fileTemplateGroup
+                implementation="com.github.aesoper101.intellij.kratos.KratosFileTemplateGroupDescriptorFactory"/>
 
-        <errorHandler implementation="com.github.aesoper101.intellij.kratos.diagnostic.KratosErrorReportSubmitter" />
-       <internalFileTemplate name="2a.go" />
+        <errorHandler implementation="com.github.aesoper101.intellij.kratos.diagnostic.KratosErrorReportSubmitter"/>
 
+
+        <defaultTemplatePropertiesProvider implementation="com.github.aesoper101.intellij.kratos.actions.KratosProtoTemplatePropertiesProvider"/>
+        <createFromTemplateHandler implementation="com.github.aesoper101.intellij.kratos.actions.KratosProtoCreateFromTemplateHandler"/>
 
         <notificationGroup id="Kratos notification group"
                            displayType="BALLOON"
                            bundle="messages.KratosBundle"
                            key="notification.group.name"/>
     </extensions>
+    <actions>
+        <action id="ApiProto2GoAction"
+                class="com.github.aesoper101.intellij.kratos.actions.ApiProto2GoAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+        <action id="ConfProto2GoAction"
+                class="com.github.aesoper101.intellij.kratos.actions.ConfProto2GoAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+        <action id="WireAction"
+                class="com.github.aesoper101.intellij.kratos.actions.WireAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
+
+        <group id="KratosActionGroup" text="Kratos" popup="true">
+            <action id="NewApiProtoAction"
+                    class="com.github.aesoper101.intellij.kratos.actions.NewApiProtoAction"
+            >
+
+            </action>
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </group>
+    </actions>
 </idea-plugin>

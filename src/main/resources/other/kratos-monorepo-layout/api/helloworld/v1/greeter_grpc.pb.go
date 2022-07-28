@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.3
-// source: helloworld/v1/greeter.proto
+// source: greeter.proto
 
 package v1
 

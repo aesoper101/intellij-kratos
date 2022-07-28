@@ -11,7 +11,7 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.module.Module
 
 class ProjectGenerator(private val module: Module, private val settings: KratosNewProjectSettings) {
-  val a = mapOf(Pair("S", ""), Pair("2", 2))
+
     fun doGenerator(
         isCreatingNewProject: Boolean,
         contentRoot: String?

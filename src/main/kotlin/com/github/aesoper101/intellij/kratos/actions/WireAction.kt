@@ -2,6 +2,7 @@ package com.github.aesoper101.intellij.kratos.actions
 
 import com.github.aesoper101.intellij.kratos.KratosBundle
 import com.goide.util.GoExecutor
+import com.goide.util.GoUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -15,6 +16,8 @@ class WireAction :
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
 
         val params = listOf<String>()
+
+
 
         GoExecutor.`in`(module).withExePath("wire").withParameters(params).withWorkDirectory(file.parent?.path)
             .withPresentableName(KratosBundle.message("action.wire.description")).executeWithProgress {

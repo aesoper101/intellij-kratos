@@ -7,9 +7,11 @@ import com.github.aesoper101.intellij.kratos.core.GeneratorProcessor
 import com.github.aesoper101.intellij.kratos.core.GeneratorResource
 import com.github.aesoper101.intellij.kratos.core.builder.project.ProjectGenerator
 import com.github.aesoper101.intellij.kratos.project.KratosNewProjectSettings
+import com.github.aesoper101.intellij.kratos.utils.ExecUtils
 import com.goide.project.GoModuleBuilderBase
 import com.goide.project.GoProjectLibrariesService
 import com.goide.wizard.GoProjectGenerator
+import com.intellij.execution.util.ExecUtil
 import com.intellij.facet.ui.ValidationResult
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
@@ -59,9 +61,11 @@ class KratosModuleBuilder : GoModuleBuilderBase<KratosNewProjectSettings> {
             GoProjectLibrariesService.getInstance(module.project).isIndexEntireGopath = false
         }
 
-
-
         ProjectGenerator(module, settings).doGenerator(isCreatingNewProject, this.contentEntryPath)
+    }
+
+    override fun canCreateModule(): Boolean {
+        return true
     }
 }
 

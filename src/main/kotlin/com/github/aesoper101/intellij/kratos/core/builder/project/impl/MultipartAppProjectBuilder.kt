@@ -1,5 +1,6 @@
 package com.github.aesoper101.intellij.kratos.core.builder.project.impl
 
+import com.github.aesoper101.intellij.kratos.KratosConstants
 import com.github.aesoper101.intellij.kratos.core.*
 import com.github.aesoper101.intellij.kratos.core.builder.project.AbstractProjectGenerator
 import com.github.aesoper101.intellij.kratos.project.KratosNewProjectSettings
@@ -10,7 +11,6 @@ import com.intellij.openapi.vfs.VirtualFile
 
 class MultipartAppProjectBuilder(module: Module, settings: KratosNewProjectSettings, contentRootDirectory: String) :
     AbstractProjectGenerator(module, settings, contentRootDirectory) {
-
 
     override fun getGeneratorAssets(): List<GeneratorAsset> {
         val assets = mutableListOf<GeneratorAsset>()
@@ -23,9 +23,12 @@ class MultipartAppProjectBuilder(module: Module, settings: KratosNewProjectSetti
     override fun afterDoGenerate(projectDirectory: VirtualFile) {
         VfsUtil.collectChildrenRecursively(projectDirectory).forEach {
             if (!it.isDirectory) {
-                val old = "github.com/aesoper101/kratos-monorepo-layout"
                 it.setBinaryContent(
-                    copyToString(it.inputStream).replace(old, projectDirectory.name, false).toByteArray()
+                    copyToString(it.inputStream).replace(
+                        KratosConstants.KRATOS_MONOREPO_LAYOUT_URL,
+                        projectDirectory.name,
+                        false
+                    ).toByteArray()
                 )
             }
         }

@@ -16,6 +16,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.LabeledComponent
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.openapi.util.text.StringUtil
 
 import com.intellij.ui.dsl.builder.*
@@ -29,8 +30,6 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
     ConfigurationProvider<KratosConfiguration> {
 
     private val myEnvironmentField = VgoEnvironmentVariablesField(false)
-
-
 
 
     override val kratosSettings: KratosConfiguration = KratosConfiguration.getInstance()

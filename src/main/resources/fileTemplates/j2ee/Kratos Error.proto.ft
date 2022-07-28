@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ${ProtoPackageName};
+
+import "errors/errors.proto";
+
+option go_package = "${GoPackageName}";
+option java_multiple_files = true;
+option java_package = "${JavaPackageName}";
+
+enum ${ServiceName}ErrorReason {
+  // set default error code
+  option (errors.default_code) = 500;
+
+  // Set error codes individually for an enumeration
+  // ${ServiceName}_NOT_FOUND = 0 [(errors.code) = 404];
+
+  //  CONTENT_MISSING = 1 [(errors.code) = 400];
+}

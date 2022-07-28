@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package ${ProtoPackageName};
+
+
+option go_package = "${GoPackageName}";
+option java_multiple_files = true;
+option java_package = "${JavaPackageName}";
+
+
+service ${ServiceName} {
+  rpc Create${ServiceName} (Create${ServiceName}Request) returns (Create${ServiceName}Reply);
+  rpc Update${ServiceName} (Update${ServiceName}Request) returns (Update${ServiceName}Reply);
+  rpc Delete${ServiceName} (Delete${ServiceName}Request) returns (Delete${ServiceName}Reply);
+  rpc Get${ServiceName} (Get${ServiceName}Request) returns (Get${ServiceName}Reply);
+  rpc List${ServiceName} (List${ServiceName}Request) returns (List${ServiceName}Reply);
+}
+
+message Create${ServiceName}Request {}
+message Create${ServiceName}Reply {}
+
+message Update${ServiceName}Request {}
+message Update${ServiceName}Reply {}
+
+message Delete${ServiceName}Request {}
+message Delete${ServiceName}Reply {}
+
+message Get${ServiceName}Request {}
+message Get${ServiceName}Reply {}
+
+message List${ServiceName}Request {}
+message List${ServiceName}Reply {}

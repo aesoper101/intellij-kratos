@@ -37,22 +37,19 @@ class NewApiProtoAction : CreateFileFromTemplateAction(
     NEW_API_PROTO_ACTION_DESCRIPTION,
     null
 ), DumbAware {
-    private val FILE_TEMPLATE = "Kratos Empty Api"
-    private val FILE_DEMO_TEMPLATE = "Kratos Demo Api"
+    private val FILE_TEMPLATE = "Kratos Api"
     private val ERROR_TEMPLATE = "Kratos Error"
 
     @Suppress("DialogTitleCapitalization")
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
         builder.setTitle(NEW_API_PROTO_ACTION_NAME)
-            .addKind("Empty Api Proto", null, FILE_TEMPLATE)
+            .addKind("Api Proto", null, FILE_TEMPLATE)
             .addKind("Api Error Proto", null, ERROR_TEMPLATE)
-            .addKind("Api Proto", null, FILE_DEMO_TEMPLATE);
     }
 
     override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?): String {
         return NEW_API_PROTO_ACTION_NAME
     }
-
 
     override fun update(e: AnActionEvent) {
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)

@@ -40,8 +40,10 @@
         <errorHandler implementation="com.github.aesoper101.intellij.kratos.diagnostic.KratosErrorReportSubmitter"/>
 
 
-        <defaultTemplatePropertiesProvider implementation="com.github.aesoper101.intellij.kratos.actions.KratosProtoTemplatePropertiesProvider"/>
-        <createFromTemplateHandler implementation="com.github.aesoper101.intellij.kratos.actions.KratosProtoCreateFromTemplateHandler"/>
+        <defaultTemplatePropertiesProvider
+                implementation="com.github.aesoper101.intellij.kratos.actions.KratosProtoTemplatePropertiesProvider"/>
+        <createFromTemplateHandler
+                implementation="com.github.aesoper101.intellij.kratos.actions.KratosProtoCreateFromTemplateHandler"/>
 
         <notificationGroup id="Kratos notification group"
                            displayType="BALLOON"
@@ -49,15 +51,37 @@
                            key="notification.group.name"/>
     </extensions>
     <actions>
+        <group id="KratosActionGroup" text="Kratos" popup="true">
+            <action id="NewApiProtoAction"
+                    class="com.github.aesoper101.intellij.kratos.actions.NewApiProtoAction"
+            >
+
+            </action>
+            <action id="NewApplicationAction"
+                    class="com.github.aesoper101.intellij.kratos.actions.NewApplicationAction"
+            >
+
+            </action>
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </group>
+
         <action id="ApiProto2GoAction"
                 class="com.github.aesoper101.intellij.kratos.actions.ApiProto2GoAction"
         >
             <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="KratosActionGroup" anchor="first"/>
         </action>
         <action id="ConfProto2GoAction"
                 class="com.github.aesoper101.intellij.kratos.actions.ConfProto2GoAction"
         >
             <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="KratosActionGroup" anchor="first"/>
+        </action>
+        <action id="Api2ServiceAction"
+                class="com.github.aesoper101.intellij.kratos.actions.Api2ServiceAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="KratosActionGroup" anchor="first"/>
         </action>
         <action id="WireAction"
                 class="com.github.aesoper101.intellij.kratos.actions.WireAction"
@@ -66,13 +90,6 @@
             <add-to-group group-id="NewGroup" anchor="first"/>
         </action>
 
-        <group id="KratosActionGroup" text="Kratos" popup="true">
-            <action id="NewApiProtoAction"
-                    class="com.github.aesoper101.intellij.kratos.actions.NewApiProtoAction"
-            >
 
-            </action>
-            <add-to-group group-id="NewGroup" anchor="first"/>
-        </group>
     </actions>
 </idea-plugin>

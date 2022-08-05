@@ -43,7 +43,7 @@ class ConfProto2GoAction :
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
         when {
-            file == null || file.isDirectory || !StringUtil.containsAnyChar(file.path, "internal/conf") -> {
+            file == null || file.isDirectory || file.extension != "proto" || file.parent.name != "conf" -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

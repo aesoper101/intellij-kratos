@@ -52,6 +52,8 @@
     </extensions>
     <actions>
         <group id="KratosActionGroup" text="Kratos" popup="true">
+            <group id="KratosNewGroupAction"
+                   class="com.github.aesoper101.intellij.kratos.actions.KratosNewGroupAction"/>
             <action id="NewApiProtoAction"
                     class="com.github.aesoper101.intellij.kratos.actions.NewApiProtoAction"
             >
@@ -62,6 +64,10 @@
             >
 
             </action>
+            <action id="KratosUpgradeAction"
+                    class="com.github.aesoper101.intellij.kratos.actions.KratosUpgradeAction"
+            ></action>
+
             <add-to-group group-id="NewGroup" anchor="first"/>
         </group>
 

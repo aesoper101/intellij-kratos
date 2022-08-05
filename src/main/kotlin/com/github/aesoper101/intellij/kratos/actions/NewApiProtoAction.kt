@@ -16,6 +16,7 @@ import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.ide.fileTemplates.FileTemplate
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -53,16 +54,9 @@ class NewApiProtoAction : CreateFileFromTemplateAction(
 
     override fun update(e: AnActionEvent) {
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
-        val project = e.project ?: return
-        val projectDirectory = LocalFileSystem.getInstance().findFileByIoFile(File(project.presentableUrl!!))!!
-        val apiDir = projectDirectory.findChild("api")
-
         when {
-            file == null || !file.isDirectory || apiDir == null || !apiDir.isDirectory || !VfsUtil.isAncestor(
-                apiDir,
-                file,
-                true
-            ) -> {
+            e.project == null ||
+            file == null || !file.isDirectory || file.parent?.name != "api" -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

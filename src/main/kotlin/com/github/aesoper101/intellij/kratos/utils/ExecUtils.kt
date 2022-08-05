@@ -34,25 +34,6 @@ object ExecUtils {
     }
 
 
-//    @Suppress("unused")
-//    private fun run(command: List<String>, workDirectory: String?): ProcessOutput {
-//        val commandLine = GeneralCommandLine(command)
-//        if (workDirectory != null && StringUtil.isNotEmpty(workDirectory)) {
-//            commandLine.workDirectory = File(workDirectory)
-//        }
-//
-//        return ExecUtil.execAndGetOutput(commandLine)
-//    }
-//
-//    fun runCmd(pe: ProcessEntity) {
-//        if (!pe.beforeRun()) {
-//            return
-//        }
-//
-//        val result = run(pe.command, pe.workDirectory)
-//        pe.afterRun(result)
-//    }
-
 }
 
 private interface LookPathInterface {
@@ -183,39 +164,5 @@ private class LookPathWindows(private var project: Project) : LookPathInterface 
     private fun chkStat(file: String): Boolean {
         val f = File(file)
         return !f.isDirectory && f.canExecute()
-    }
-}
-
-interface RunHandler {
-    fun beforeRun(): Boolean
-    fun afterRun(output: ProcessOutput)
-}
-
-abstract class ProcessEntity(
-    var project: Project,
-    private val cmdName: String,
-    params: List<String>,
-    var workDirectory: String?
-) :
-    RunHandler {
-    val command = mutableListOf<String>()
-
-    init {
-        command.add(cmdName)
-        for (p in params) {
-            command.add(p)
-        }
-    }
-
-    override fun beforeRun(): Boolean {
-        if (!StringUtil.isNotEmpty(ExecUtils.lookPath(project, this.cmdName))) {
-            NotificationManager.getInstance().createNotification().error(project, "$cmdName not found in PATH")
-            return false
-        }
-        return true
-    }
-
-    override fun afterRun(output: ProcessOutput) {
-
     }
 }

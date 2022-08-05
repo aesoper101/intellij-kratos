@@ -14,29 +14,27 @@ class ProjectGenerator(private val module: Module, private val settings: KratosN
 
     fun doGenerator(
         isCreatingNewProject: Boolean,
-        contentRoot: String?
+        contentRoot: String?,
+        isInGoWorkSpace: Boolean = false
     ) {
         if (!StringUtil.isEmpty(contentRoot)) {
 
-            when (settings.kratosSettings.templateType) {
+            when (settings.templateType) {
                 TemplateType.SINGLE -> {
-                    SingleAppProjectBuilder(module, settings, contentRoot!!).doGenerate()
+                    SingleAppProjectBuilder(module, settings, contentRoot!!).doGenerate(isInGoWorkSpace)
                 }
                 TemplateType.MULTIPART -> {
-                    MultipartAppProjectBuilder(module, settings, contentRoot!!).doGenerate()
+                    MultipartAppProjectBuilder(module, settings, contentRoot!!).doGenerate(isInGoWorkSpace)
                 }
             }
         }
 
-
-        if (isCreatingNewProject || !VgoProjectSettings.getInstance(module.project).isIntegrationEnabled) {
-            val vgoProjectSettings = VgoProjectSettings.getInstance(module.project)
+        val vgoProjectSettings = VgoProjectSettings.getInstance(module.project)
+        if (isCreatingNewProject || !vgoProjectSettings.isIntegrationEnabled) {
             vgoProjectSettings.isIntegrationEnabled = true
             vgoProjectSettings.isAutoVendoringMode = settings.vendoringMode
             vgoProjectSettings.environment = settings.environment
             VgoSettings.getInstance().addEnvironmentVars(settings.environment)
         }
-
-        settings.kratosSettings.saveState(module.project)
     }
 }

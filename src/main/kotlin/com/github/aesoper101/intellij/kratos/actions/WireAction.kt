@@ -17,8 +17,6 @@ class WireAction :
 
         val params = listOf<String>()
 
-
-
         GoExecutor.`in`(module).withExePath("wire").withParameters(params).withWorkDirectory(file.parent?.path)
             .withPresentableName(KratosBundle.message("action.wire.description")).executeWithProgress {
                 file.parent?.refresh(true, false)

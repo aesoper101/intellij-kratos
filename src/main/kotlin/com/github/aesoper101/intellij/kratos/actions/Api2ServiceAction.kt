@@ -51,7 +51,7 @@ class Api2ServiceAction : AnAction(
         val projectDirectory = LocalFileSystem.getInstance().findFileByIoFile(File(project.presentableUrl!!))!!
         val apiDir = projectDirectory.findChild("api")
         when {
-            file == null || file.isDirectory || apiDir == null || !apiDir.isDirectory || !VfsUtil.isAncestor(
+            file == null || file.isDirectory || file.extension != "proto" || apiDir == null || !apiDir.isDirectory || !VfsUtil.isAncestor(
                 apiDir,
                 file,
                 true

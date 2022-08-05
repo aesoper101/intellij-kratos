@@ -26,13 +26,11 @@ import com.intellij.util.ui.UI.PanelFactory
 import javax.swing.*
 
 // see  vgoProjectGeneratorPeer
-class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettings>(),
-    ConfigurationProvider<KratosConfiguration> {
+class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettings>() {
 
     private val myEnvironmentField = VgoEnvironmentVariablesField(false)
 
-
-    override val kratosSettings: KratosConfiguration = KratosConfiguration.getInstance()
+    private var templateType = TemplateType.SINGLE
 
     override fun createSettingsPanel(
         p0: Disposable,
@@ -45,11 +43,9 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
 
         panel.layout = BoxLayout(panel, BoxLayout.Y_AXIS)
 
-
-
-        gird.add(PanelFactory.panel(myEnvironmentField).withLabel(KratosBundle.message("module.builder.generator.peer.env")))
-
-
+        gird.add(
+            PanelFactory.panel(myEnvironmentField).withLabel(KratosBundle.message("module.builder.generator.peer.env"))
+        )
 
         gird.add(PanelFactory.panel(createTemplateSwitchPanel()).withLabel(KratosBundle.message("module.builder.type")))
 
@@ -64,14 +60,14 @@ class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettin
         return KratosNewProjectSettings(
             sdkFromCombo,
             myEnvironmentField.envs,
-            kratosSettings,
+            templateType,
         )
     }
 
     private fun createTemplateSwitchPanel(): DialogPanel {
         val typeProperty: ObservableMutableProperty<TemplateType> = PropertyGraph().property(TemplateType.SINGLE)
 
-        typeProperty.afterChange { kratosSettings.templateType = it }
+        typeProperty.afterChange { templateType = it }
 
         return panel {
             row {

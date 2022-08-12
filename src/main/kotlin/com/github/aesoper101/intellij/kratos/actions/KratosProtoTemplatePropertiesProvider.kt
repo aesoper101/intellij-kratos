@@ -24,7 +24,8 @@ const val KRATOS_PROTO_GO_MODULE_NAME = "KRATOS_PROTO_GO_" + FileTemplate.ATTRIB
 class KratosProtoTemplatePropertiesProvider : GoTemplatePropertiesProvider() {
 
     override fun fillProperties(directory: PsiDirectory, props: Properties) {
-        val goModFile = VgoUtil.findModuleRoot(directory.virtualFile) ?: LocalFileSystem.getInstance().findFileByIoFile(File(directory.project.basePath + "/go.mod"))!!
+        val goModFile = VgoUtil.findModuleRoot(directory.virtualFile)?.findChild("go.mod") ?: LocalFileSystem.getInstance()
+            .findFileByIoFile(File(directory.project.basePath + "/go.mod"))!!
         val goModuleName = GoUtil.getModuleName(goModFile)
 
         if (goModuleName != null) {

@@ -43,10 +43,11 @@ class NewApiProtoAction : CreateFileFromTemplateAction(
 
     @Suppress("DialogTitleCapitalization")
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-        builder.setTitle(NEW_API_PROTO_ACTION_NAME)
+       builder.setTitle(NEW_API_PROTO_ACTION_NAME)
             .addKind("Api Proto", null, FILE_TEMPLATE)
             .addKind("Api Error Proto", null, ERROR_TEMPLATE)
     }
+
 
     override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?): String {
         return NEW_API_PROTO_ACTION_NAME

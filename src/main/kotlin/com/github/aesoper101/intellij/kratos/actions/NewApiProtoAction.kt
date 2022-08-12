@@ -43,7 +43,7 @@ class NewApiProtoAction : CreateFileFromTemplateAction(
 
     @Suppress("DialogTitleCapitalization")
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-       builder.setTitle(NEW_API_PROTO_ACTION_NAME)
+        builder.setTitle(NEW_API_PROTO_ACTION_NAME)
             .addKind("Api Proto", null, FILE_TEMPLATE)
             .addKind("Api Error Proto", null, ERROR_TEMPLATE)
     }
@@ -55,9 +55,10 @@ class NewApiProtoAction : CreateFileFromTemplateAction(
 
     override fun update(e: AnActionEvent) {
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
+
         when {
             e.project == null ||
-            file == null || !file.isDirectory || file.parent?.name != "api" -> {
+                    file == null || !file.isDirectory || (file.parent?.name != "api" && file.parent?.parent?.name != "api") -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

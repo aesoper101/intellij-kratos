@@ -31,7 +31,8 @@ class ApiProto2GoAction :
             "--go_out=paths=source_relative:./${apiPath}",
             "--go-http_out=paths=source_relative:./${apiPath}",
             "--go-grpc_out=paths=source_relative:./${apiPath}",
-            "--openapi_out=fq_schema_naming=true,default_response=false:.",
+            "--validate_out=paths=source_relative,lang=go:./${apiPath}",
+            "--openapi_out=fq_schema_naming=true,default_response=false:./${apiPath}",
             "./${filePath}"
         )
 

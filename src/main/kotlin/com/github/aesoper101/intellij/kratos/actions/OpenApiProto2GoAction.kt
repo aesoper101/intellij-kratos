@@ -17,8 +17,8 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VfsUtil
 import java.io.File
 
-class ApiProto2GoAction :
-    AnAction(KratosBundle.message("action.api2go.name"), KratosBundle.message("action.api2go.description"), null) {
+class OpenApiProto2GoAction :
+    AnAction(KratosBundle.message("action.openapi2go.name"), KratosBundle.message("action.openapi2go.description"), null) {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val module = e.getData(PlatformDataKeys.MODULE) ?: return
@@ -27,11 +27,11 @@ class ApiProto2GoAction :
         val projectDirectory = VgoUtil.findModuleRoot(file) ?: return
 
         val apiPath = VfsUtil.getRelativePath(file.parent, projectDirectory)
-        val filePath = VfsUtil.getRelativePath(file, projectDirectory)
+//        val filePath = VfsUtil.getRelativePath(file, projectDirectory)
 
         val descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor()
             .withRoots(projectDirectory)
-            .withTitle(KratosBundle.message("action.conf2go.dialog.title"))
+            .withTitle(KratosBundle.message("action.openapi2go.dialog.title"))
             .withShowHiddenFiles(false)
 
 
@@ -42,10 +42,8 @@ class ApiProto2GoAction :
             val params = mutableListOf(
                 "--proto_path=./${apiPath}",
                 "--proto_path=./third_party",
-                "--go_out=paths=source_relative:./${goOutfilePath}",
-                "--go-http_out=paths=source_relative:./${goOutfilePath}",
-                "--go-grpc_out=paths=source_relative:./${goOutfilePath}",
-                "./${filePath}"
+                "--openapi_out=fq_schema_naming=true,default_response=false:./${goOutfilePath}",
+                "./${apiPath}/*.proto"
             )
 
             GoExecutor.`in`(module).withExePath("protoc")

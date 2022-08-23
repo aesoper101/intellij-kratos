@@ -89,6 +89,24 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <add-to-group group-id="KratosActionGroup" anchor="first"/>
         </action>
+        <action id="ErrorProto2GoAction"
+                class="com.github.aesoper101.intellij.kratos.actions.ErrorProto2GoAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="KratosActionGroup" anchor="first"/>
+        </action>
+        <action id="ValidateProto2GoAction"
+                class="com.github.aesoper101.intellij.kratos.actions.ValidateProto2GoAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="KratosActionGroup" anchor="first"/>
+        </action>
+        <action id="OpenApiProto2GoAction"
+                class="com.github.aesoper101.intellij.kratos.actions.OpenApiProto2GoAction"
+        >
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <add-to-group group-id="KratosActionGroup" anchor="first"/>
+        </action>
         <action id="WireAction"
                 class="com.github.aesoper101.intellij.kratos.actions.WireAction"
         >

@@ -9,6 +9,8 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
+import com.intellij.openapi.fileChooser.FileChooser
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.vfs.VfsUtil
 
 
@@ -24,38 +26,50 @@ class ConfProto2GoAction :
         val confPath = VfsUtil.getRelativePath(file.parent, projectDirectory)
         val filePath = VfsUtil.getRelativePath(file, projectDirectory)
 
-        val params = listOf(
-            "--proto_path=./${confPath}",
-            "--proto_path=./third_party",
-            "--go_out=paths=source_relative:./${confPath}",
-            "--go_opt=Mgoprotobuf/kratos/conf/conf.proto=github.com/aesoper101/goprotobuf/kratos/conf",
-            "./${filePath}"
-        )
+        val descriptor = FileChooserDescriptorFactory.createSingleFolderDescriptor()
+            .withRoots(projectDirectory)
+            .withTitle(KratosBundle.message("action.conf2go.dialog.title"))
+            .withShowHiddenFiles(false)
 
 
-        GoExecutor.`in`(module).withExePath("protoc")
-            .withParameters(params)
-            .withWorkDirectory(projectDirectory.path)
-            .withPresentableName(KratosBundle.message("action.conf2go.description"))
-            .executeWithProgress {
-                when(it.status) {
+        val folder = FileChooser.chooseFile(descriptor, project, file.parent)
+        if (folder != null) {
+            val goOutfilePath = VfsUtil.getRelativePath(folder, projectDirectory)
+            val params = listOf(
+                "--proto_path=./${confPath}",
+                "--proto_path=./third_party",
+                "--go_out=paths=source_relative:./${goOutfilePath}",
+                "--go_opt=Mkratos/conf.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
+                "./${filePath}"
+            )
 
-                    GoExecutor.ExecutionResult.Status.SUCCEEDED ->{
-                        VfsUtil.markDirtyAndRefresh(
-                            true, true, true, projectDirectory
-                        )
-                    }
-                    else -> {
-                        it.message?.let { it1 ->
-                            NotificationManager.getInstance().createNotification().error(project,
-                                it1
+            GoExecutor.`in`(module).withExePath("protoc")
+                .withParameters(params)
+                .withWorkDirectory(projectDirectory.path)
+                .withPresentableName(KratosBundle.message("action.conf2go.description"))
+                .executeWithProgress {
+                    when(it.status) {
+
+                        GoExecutor.ExecutionResult.Status.SUCCEEDED ->{
+                            VfsUtil.markDirtyAndRefresh(
+                                true, true, true, projectDirectory
                             )
                         }
+                        else -> {
+                            it.message?.let { it1 ->
+                                NotificationManager.getInstance().createNotification().error(project,
+                                    it1
+                                )
+                            }
 
+                        }
                     }
-                }
 
-            }
+                }
+        }
+
+
+
     }
 
     override fun update(e: AnActionEvent) {

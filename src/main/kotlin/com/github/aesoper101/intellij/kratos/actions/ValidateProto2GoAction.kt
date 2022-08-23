@@ -17,8 +17,8 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VfsUtil
 import java.io.File
 
-class ApiProto2GoAction :
-    AnAction(KratosBundle.message("action.api2go.name"), KratosBundle.message("action.api2go.description"), null) {
+class ValidateProto2GoAction :
+    AnAction(KratosBundle.message("action.validate2go.name"), KratosBundle.message("action.validate2go.description"), null) {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val module = e.getData(PlatformDataKeys.MODULE) ?: return
@@ -43,8 +43,7 @@ class ApiProto2GoAction :
                 "--proto_path=./${apiPath}",
                 "--proto_path=./third_party",
                 "--go_out=paths=source_relative:./${goOutfilePath}",
-                "--go-http_out=paths=source_relative:./${goOutfilePath}",
-                "--go-grpc_out=paths=source_relative:./${goOutfilePath}",
+                "--validate_out=paths=source_relative,lang=go:./${goOutfilePath}",
                 "./${filePath}"
             )
 
@@ -72,8 +71,14 @@ class ApiProto2GoAction :
     override fun update(e: AnActionEvent) {
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
+
+        val content = file?.let { FileUtil.read(it) }
+
         when {
-            file == null || file.isDirectory || file.extension != "proto" || (file.parent?.name != "api" && file.parent?.parent?.name != "api" && file.parent?.parent?.parent?.name != "api") -> {
+            file == null || file.isDirectory || !StringUtil.contains(
+                content!!,
+                "validate/validate.proto"
+            ) || file.extension != "proto" || (file.parent?.name != "api" && file.parent?.parent?.name != "api" && file.parent?.parent?.parent?.name != "api") -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

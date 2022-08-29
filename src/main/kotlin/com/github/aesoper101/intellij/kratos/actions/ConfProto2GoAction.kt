@@ -1,7 +1,6 @@
 package com.github.aesoper101.intellij.kratos.actions
 
 import com.github.aesoper101.intellij.kratos.KratosBundle
-import com.github.aesoper101.intellij.kratos.notification.Notification
 import com.github.aesoper101.intellij.kratos.notification.NotificationManager
 import com.goide.util.GoExecutor
 import com.goide.vgo.VgoUtil
@@ -39,7 +38,10 @@ class ConfProto2GoAction :
                 "--proto_path=./${confPath}",
                 "--proto_path=./third_party",
                 "--go_out=paths=source_relative:./${goOutfilePath}",
-                "--go_opt=Mkratos/conf.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
+                "--go_opt=Mkratos/conf/redis.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
+                "--go_opt=Mkratos/conf/logger.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
+                "--go_opt=Mkratos/conf/registry.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
+                "--go_opt=Mkratos/conf/other.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
                 "./${filePath}"
             )
 
@@ -76,7 +78,7 @@ class ConfProto2GoAction :
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
         when {
-            file == null || file.isDirectory || file.extension != "proto" || file.parent.name != "conf" -> {
+            file == null || file.isDirectory || file.extension != "proto"  -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

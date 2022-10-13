@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package kratos.conf;
+
+option go_package = "github.com/aesoper101/kratos-utils/protobuf/types/confpb;confpb";
+
+
+
+message Queue {
+
+}
+
+message Tracer {
+  string endpoint = 1;
+  string env = 2;
+}
+

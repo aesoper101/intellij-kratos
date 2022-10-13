@@ -52,7 +52,7 @@ class ApiProto2GoAction :
                 .withParameters(params)
                 .withWorkDirectory(projectDirectory.path)
                 .withPresentableName(KratosBundle.message("action.api2go.description"))
-                .executeWithProgress {
+                    .executeWithOutput {
                     when (it.status) {
                         GoExecutor.ExecutionResult.Status.SUCCEEDED -> {
                             VfsUtil.markDirtyAndRefresh(
@@ -60,7 +60,11 @@ class ApiProto2GoAction :
                             )
                         }
                         else -> {
-                            NotificationManager.getInstance().createNotification().error(project, it.message!!)
+                            it.message?.let { it1 ->
+                                NotificationManager.getInstance().createNotification().error(project,
+                                        it1
+                                )
+                            }
                         }
                     }
                 }

@@ -49,9 +49,8 @@ class ConfProto2GoAction :
                 .withParameters(params)
                 .withWorkDirectory(projectDirectory.path)
                 .withPresentableName(KratosBundle.message("action.conf2go.description"))
-                .executeWithProgress {
+                .executeWithOutput {
                     when(it.status) {
-
                         GoExecutor.ExecutionResult.Status.SUCCEEDED ->{
                             VfsUtil.markDirtyAndRefresh(
                                 true, true, true, projectDirectory
@@ -60,10 +59,9 @@ class ConfProto2GoAction :
                         else -> {
                             it.message?.let { it1 ->
                                 NotificationManager.getInstance().createNotification().error(project,
-                                    it1
+                                        it1
                                 )
                             }
-
                         }
                     }
 

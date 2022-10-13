@@ -41,7 +41,7 @@ class Api2ServiceAction : AnAction(
                 .withExePath("kratos")
                 .withParameters(listOf("proto", "server", sourcePath, "-t", target))
                 .withWorkDirectory(projectDirectory.path)
-                .executeWithProgress {
+                .executeWithOutput {
                     when(it.status) {
                         GoExecutor.ExecutionResult.Status.SUCCEEDED -> {
                             folder.refresh(true, false)

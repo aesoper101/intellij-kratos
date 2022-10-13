@@ -10,17 +10,20 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys
 
 
 class WireAction :
-    AnAction(KratosBundle.message("action.wire.name"), KratosBundle.message("action.wire.description"), null) {
+        AnAction(KratosBundle.message("action.wire.name"), KratosBundle.message("action.wire.description"), null) {
     override fun actionPerformed(e: AnActionEvent) {
         val module = e.getData(PlatformDataKeys.MODULE) ?: return
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
 
         val params = listOf<String>()
 
-        GoExecutor.`in`(module).withExePath("wire").withParameters(params).withWorkDirectory(file.parent?.path)
-            .withPresentableName(KratosBundle.message("action.wire.description")).executeWithProgress {
-                file.parent?.refresh(true, false)
-            }
+        GoExecutor.`in`(module).withExePath("wire")
+                .withParameters(params)
+                .withWorkDirectory(file.parent?.path)
+                .withPresentableName(KratosBundle.message("action.wire.description"))
+                .executeWithOutput {
+                    file.parent?.refresh(true, false)
+                }
     }
 
     override fun update(e: AnActionEvent) {

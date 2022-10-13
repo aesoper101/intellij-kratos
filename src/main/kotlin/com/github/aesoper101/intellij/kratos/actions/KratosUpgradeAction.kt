@@ -12,17 +12,33 @@ import com.intellij.openapi.actionSystem.PlatformDataKeys
 
 class KratosUpgradeAction : AnAction(KratosBundle.message("action.upgrade.name"), KratosBundle.message("action.upgrade.description"), null) {
 
-    override fun actionPerformed(e: AnActionEvent) {
-        val module = e.getData(PlatformDataKeys.MODULE)?: return
-//        val project = e.project ?: return
+    private val deps = listOf(
+            "google.golang.org/protobuf/cmd/protoc-gen-go@latest",
+            "google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest",
+            "github.com/go-kratos/kratos/cmd/kratos/v2@latest",
+            "github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest",
+            "github.com/google/gnostic/cmd/protoc-gen-openapi@latest",
+            "entgo.io/ent/cmd/ent@latest",
+            "github.com/google/wire/cmd/wire@latest",
+            "github.com/envoyproxy/protoc-gen-validate@latest",
+            "github.com/go-kratos/kratos/cmd/protoc-gen-go-errors/v2@latest"
+    )
 
-        GoGetPackageUtil.installTool(
-            module.project,
-            module,
-            module.project.presentableUrl,
-            KratosConstants.KRATOS_PACKAGE_IMPORT_PATH,
-            true,
-        )
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val module = e.getData(PlatformDataKeys.MODULE) ?: return
+
+        deps.forEach {
+            println(it)
+            GoGetPackageUtil.installTool(
+                    module.project,
+                    module,
+                    module.project.presentableUrl,
+                    it,
+                    true,
+            )
+        }
+
     }
 
 }

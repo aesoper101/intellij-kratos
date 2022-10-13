@@ -50,7 +50,7 @@ class OpenApiProto2GoAction :
                 .withParameters(params)
                 .withWorkDirectory(projectDirectory.path)
                 .withPresentableName(KratosBundle.message("action.api2go.description"))
-                .executeWithProgress {
+                .executeWithOutput {
                     when (it.status) {
                         GoExecutor.ExecutionResult.Status.SUCCEEDED -> {
                             VfsUtil.markDirtyAndRefresh(

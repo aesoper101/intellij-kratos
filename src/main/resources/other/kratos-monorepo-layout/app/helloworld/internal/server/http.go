@@ -42,7 +42,9 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 			handlers.AllowedOrigins([]string{"*"}),
 			handlers.AllowedMethods([]string{"GET", "POST"}),
 		)),
+		http.ResponseEncoder(encoder.ApiEncodeResponse()),
 	}
+
 	if c.Http.Network != "" {
 		opts = append(opts, http.Network(c.Http.Network))
 	}
@@ -52,8 +54,9 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 	if c.Http.Timeout != nil {
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
-
-	opts = append(opts, http.ResponseEncoder(encoder.ApiEncodeResponse()))
+	if tlsCfg := c.Http.GetTls(); tlsCfg != nil {
+		opts = append(opts, http.TLSConfig(pkg.InitTLSConfig(tlsCfg)))
+	}
 
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, services.GreeterService)

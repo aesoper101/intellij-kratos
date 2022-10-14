@@ -3,7 +3,7 @@ module github.com/aesoper101/kratos-monorepo-layout
 go 1.18
 
 require (
-	github.com/aesoper101/kratos-utils v0.0.0-20221014155748-e8290c4e2835
+	github.com/aesoper101/kratos-utils v0.0.0-20221014161803-5fd4563bf9aa
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
 	github.com/go-sql-driver/mysql v1.4.0

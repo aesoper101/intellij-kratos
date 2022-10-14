@@ -8,6 +8,7 @@ import (
 	"github.com/aesoper101/kratos-utils/encoder"
 	"github.com/aesoper101/kratos-utils/middleware/metrics"
 	"github.com/aesoper101/kratos-utils/middleware/requestid"
+	"github.com/aesoper101/kratos-utils/pkg"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
@@ -17,8 +18,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	sentrykratos "github.com/go-kratos/sentry"
-	"github.com/go-kratos/swagger-api/openapiv2"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/gorilla/handlers"
 )
 
 // NewHTTPServer new a HTTP server.
@@ -32,12 +32,16 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 			sentrykratos.Server(),
 			tracing.Server(),
 			logging.Server(logger),
-			validate.Validator(),
-			metrics.Server(),
 			ratelimit.Server(),
 			metadata.Server(),
 			requestid.Server(),
+			validate.Validator(),
+			metrics.Server(),
 		),
+		http.Filter(handlers.CORS(
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowedMethods([]string{"GET", "POST"}),
+		)),
 	}
 	if c.Http.Network != "" {
 		opts = append(opts, http.Network(c.Http.Network))
@@ -54,9 +58,8 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, services.GreeterService)
 
-	openAPIhandler := openapiv2.NewHandler()
-	srv.HandlePrefix("/q/", openAPIhandler)
-	srv.Handle("/metrics", promhttp.Handler())
-
+	pkg.RegisterPprof(srv, c.Http.GetPprof())
+	pkg.RegisterMetrics(srv, c.Http.GetMetrics())
+	pkg.RegisterSwagger(srv, c.Http.GetSwagger())
 	return srv
 }

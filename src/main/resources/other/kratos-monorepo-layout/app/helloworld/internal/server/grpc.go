@@ -29,11 +29,11 @@ func NewGRPCServer(c *conf.Server, services *service.Services, logger log.Logger
 			sentrykratos.Server(),
 			tracing.Server(),
 			logging.Server(logger),
-			validate.Validator(),
-			metrics.Server(),
 			ratelimit.Server(),
 			metadata.Server(),
 			requestid.Server(),
+			validate.Validator(),
+			metrics.Server(),
 		),
 	}
 	if c.Grpc.Network != "" {

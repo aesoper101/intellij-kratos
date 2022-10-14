@@ -10,6 +10,10 @@ import "google/protobuf/duration.proto";
 message Database {
   string driver = 1;
   string source = 2;
+  int64 max_idle_count = 3;
+  int64 max_open = 4;
+  google.protobuf.Duration  max_life_time = 5;
+  google.protobuf.Duration  max_idle_time  = 6;
 }
 
 message Redis {

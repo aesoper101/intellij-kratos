@@ -3,13 +3,12 @@ module github.com/aesoper101/kratos-monorepo-layout
 go 1.18
 
 require (
-	github.com/aesoper101/kratos-utils v0.0.0-20221014095144-07b84564f7be
+	github.com/aesoper101/kratos-utils v0.0.0-20221014155748-e8290c4e2835
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
-	github.com/go-kratos/swagger-api v1.0.1
 	github.com/go-sql-driver/mysql v1.4.0
 	github.com/google/wire v0.5.0
-	github.com/prometheus/client_golang v1.13.0
+	github.com/gorilla/handlers v1.5.1
 	github.com/spf13/cobra v1.6.0
 	google.golang.org/genproto v0.0.0-20220524023933-508584e28198
 	google.golang.org/grpc v1.46.2
@@ -34,6 +33,7 @@ require (
 	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
 	github.com/eapache/queue v1.1.0 // indirect
 	github.com/fatih/color v1.13.0 // indirect
+	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/fluent/fluent-logger-golang v1.9.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/getsentry/sentry-go v0.14.0 // indirect
@@ -55,6 +55,7 @@ require (
 	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20220901152127-39536d32795f // indirect
 	github.com/go-kratos/kratos/contrib/registry/polaris/v2 v2.0.0-20220901152127-39536d32795f // indirect
 	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20220901152127-39536d32795f // indirect
+	github.com/go-kratos/swagger-api v1.0.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
@@ -107,6 +108,7 @@ require (
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/polarismesh/polaris-go v1.1.0 // indirect
+	github.com/prometheus/client_golang v1.13.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect

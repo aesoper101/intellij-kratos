@@ -82,6 +82,16 @@ func runApp() error {
 	}
 	defer cleanup()
 
+	err = bootstrap.InitOpenSergo(app, bc.Opensergo)
+	if err != nil {
+		return err
+	}
+
+	err = bootstrap.InitSentry(bc.Sentry)
+	if err != nil {
+		return err
+	}
+
 	return app.Run()
 }
 

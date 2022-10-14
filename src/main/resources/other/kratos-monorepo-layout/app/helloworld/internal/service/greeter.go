@@ -2,9 +2,8 @@ package service
 
 import (
 	"context"
-	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/biz"
-
 	v1 "github.com/aesoper101/kratos-monorepo-layout/api/helloworld/v1"
+	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/biz"
 )
 
 // GreeterService is a greeter service.
@@ -25,5 +24,6 @@ func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1
 	if err != nil {
 		return nil, err
 	}
+
 	return &v1.HelloReply{Message: "Hello " + g.Hello}, nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
 	"github.com/aesoper101/kratos-utils/middleware/metrics"
+	"github.com/aesoper101/kratos-utils/middleware/requestid"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
@@ -14,6 +15,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
+	sentrykratos "github.com/go-kratos/sentry"
 )
 
 // NewGRPCServer new a gRPC server.
@@ -24,12 +26,14 @@ func NewGRPCServer(c *conf.Server, services *service.Services, logger log.Logger
 				// do someting
 				return nil
 			})),
+			sentrykratos.Server(),
+			tracing.Server(),
 			logging.Server(logger),
 			validate.Validator(),
-			tracing.Server(),
 			metrics.Server(),
 			ratelimit.Server(),
 			metadata.Server(),
+			requestid.Server(),
 		),
 	}
 	if c.Grpc.Network != "" {

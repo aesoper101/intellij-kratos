@@ -5,7 +5,9 @@ import (
 	v1 "github.com/aesoper101/kratos-monorepo-layout/api/helloworld/v1"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/conf"
 	"github.com/aesoper101/kratos-monorepo-layout/app/helloworld/internal/service"
+	"github.com/aesoper101/kratos-utils/encoder"
 	"github.com/aesoper101/kratos-utils/middleware/metrics"
+	"github.com/aesoper101/kratos-utils/middleware/requestid"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/metadata"
@@ -14,6 +16,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	sentrykratos "github.com/go-kratos/sentry"
 	"github.com/go-kratos/swagger-api/openapiv2"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -26,12 +29,14 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 				// do someting
 				return nil
 			})),
+			sentrykratos.Server(),
+			tracing.Server(),
 			logging.Server(logger),
 			validate.Validator(),
-			tracing.Server(),
 			metrics.Server(),
 			ratelimit.Server(),
 			metadata.Server(),
+			requestid.Server(),
 		),
 	}
 	if c.Http.Network != "" {
@@ -43,6 +48,9 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 	if c.Http.Timeout != nil {
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
+
+	opts = append(opts, http.ResponseEncoder(encoder.ApiEncodeResponse()))
+
 	srv := http.NewServer(opts...)
 	v1.RegisterGreeterHTTPServer(srv, services.GreeterService)
 

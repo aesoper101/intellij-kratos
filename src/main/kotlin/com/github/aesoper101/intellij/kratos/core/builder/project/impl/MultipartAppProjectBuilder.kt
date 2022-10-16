@@ -10,7 +10,7 @@ import com.intellij.openapi.vfs.VirtualFile
 
 
 class MultipartAppProjectBuilder(module: Module, settings: KratosNewProjectSettings, contentRootDirectory: String) :
-    AbstractProjectGenerator(module, settings, contentRootDirectory) {
+        AbstractProjectGenerator(module, settings, contentRootDirectory) {
 
     override fun getGeneratorAssets(): List<GeneratorAsset> {
         val assets = mutableListOf<GeneratorAsset>()
@@ -24,11 +24,13 @@ class MultipartAppProjectBuilder(module: Module, settings: KratosNewProjectSetti
         VfsUtil.collectChildrenRecursively(projectDirectory).forEach {
             if (!it.isDirectory) {
                 it.setBinaryContent(
-                    copyToString(it.inputStream).replace(
-                        KratosConstants.KRATOS_MONOREPO_LAYOUT_URL,
-                        projectDirectory.name,
-                        false
-                    ).toByteArray()
+                        copyToString(it.inputStream)
+                                .replace(
+                                        KratosConstants.KRATOS_MONOREPO_LAYOUT_URL,
+                                        projectDirectory.name,
+                                        false
+                                )
+                                .replace(KratosConstants.KRATOS_MONOREPO_LAYOUT_NAME, projectDirectory.name, false).toByteArray()
                 )
             }
         }

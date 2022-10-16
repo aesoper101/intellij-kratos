@@ -4,12 +4,6 @@ import com.github.aesoper101.intellij.kratos.KratosConstants
 import com.github.aesoper101.intellij.kratos.core.*
 import com.github.aesoper101.intellij.kratos.core.builder.project.AbstractProjectGenerator
 import com.github.aesoper101.intellij.kratos.project.KratosNewProjectSettings
-import com.github.aesoper101.intellij.kratos.utils.toCamelCase
-import com.goide.psi.impl.GoPackage
-import com.goide.refactor.move.GoMoveDeclarationDelegate
-import com.goide.refactor.rename.GoRenamePsiElementProcessor
-import com.goide.sdk.GoSdkService
-import com.goide.vendor.GoVendoringUtil
 
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.vfs.VfsUtil
@@ -38,7 +32,7 @@ class SingleAppProjectBuilder(module: Module, settings: KratosNewProjectSettings
                         KratosConstants.KRATOS_LAYOUT_URL,
                         projectDirectory.name,
                         false
-                    ).toByteArray()
+                    ).replace(KratosConstants.KRATOS_LAYOUT_NAME, projectDirectory.name, false).toByteArray()
                 )
             }
         }

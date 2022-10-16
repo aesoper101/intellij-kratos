@@ -1,84 +1,87 @@
 package main
 
 import (
-	"flag"
+	"errors"
+	"fmt"
+	"github.com/aeoper101/kratos-layout/internal/conf"
+	"github.com/aesoper101/kratos-utils/bootstrap"
+	"github.com/aesoper101/kratos-utils/protobuf/types/confpb"
 	"os"
 
-	"github.com/aeoper101/kratos-layout/internal/conf"
 	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/config"
-	"github.com/go-kratos/kratos/v2/config/file"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/go-kratos/kratos/v2/transport/http"
 )
 
-// go build -ldflags "-X main.Version=x.y.z"
+// go build -ldflags "-X Service.Id=x.y.z"
 var (
-	// Name is the name of the compiled software.
-	Name string
-	// Version is the version of the compiled software.
-	Version string
-	// flagconf is the config flag.
-	flagconf string
+	Service = bootstrap.NewServiceInfo(
+		"kratos.admin",
+		"1.0.0",
+		"",
+	)
 
-	id, _ = os.Hostname()
+	rootCommand = bootstrap.NewRootCommand()
 )
 
 func init() {
-	flag.StringVar(&flagconf, "conf", "../../configs", "config path, eg: -conf config.yaml")
+	rootCommand.Init()
+	rootCommand.SetRunCommandAction(runApp)
 }
 
-func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server) *kratos.App {
+func newApp(logger log.Logger, hs *http.Server, gs *grpc.Server, rc *confpb.Registry) *kratos.App {
 	return kratos.New(
-		kratos.ID(id),
-		kratos.Name(Name),
-		kratos.Version(Version),
-		kratos.Metadata(map[string]string{}),
+		kratos.ID(Service.GetInstanceId()),
+		kratos.Name(Service.Name),
+		kratos.Version(Service.Version),
+		kratos.Metadata(Service.Metadata),
 		kratos.Logger(logger),
 		kratos.Server(
-			gs,
 			hs,
+			gs,
 		),
+		kratos.Registrar(bootstrap.NewRegistrarProvider(rc)),
 	)
 }
 
-func main() {
-	flag.Parse()
-	logger := log.With(log.NewStdLogger(os.Stdout),
-		"ts", log.DefaultTimestamp,
-		"caller", log.DefaultCaller,
-		"service.id", id,
-		"service.name", Name,
-		"service.version", Version,
-		"trace.id", tracing.TraceID(),
-		"span.id", tracing.SpanID(),
-	)
-	c := config.New(
-		config.WithSource(
-			file.NewSource(flagconf),
-		),
-	)
-	defer c.Close()
-
-	if err := c.Load(); err != nil {
-		panic(err)
-	}
-
-	var bc conf.Bootstrap
-	if err := c.Scan(&bc); err != nil {
-		panic(err)
-	}
-
-	app, cleanup, err := wireApp(bc.Server, bc.Data, logger)
+func runApp(cfg bootstrap.Config) error {
+	bc, cleanup, err := bootstrap.LoadConfig[conf.Bootstrap](cfg)
 	if err != nil {
-		panic(err)
+		return errors.New("load config failed")
 	}
 	defer cleanup()
 
-	// start and wait for stop signal
-	if err := app.Run(); err != nil {
-		panic(err)
+	if bc.Tracer != nil {
+		if err := bootstrap.NewTracerProvider(bc.Tracer, &Service); err != nil {
+			return err
+		}
+	}
+
+	logger := bootstrap.NewLoggerProvide(bc.Log, &Service)
+
+	app, cleanup, err := wireApp(bc.Server, bc.Data, bc.Registry, logger)
+	if err != nil {
+		return err
+	}
+	defer cleanup()
+
+	err = bootstrap.InitOpenSergo(app, bc.Opensergo)
+	if err != nil {
+		return err
+	}
+
+	err = bootstrap.InitSentry(bc.Sentry)
+	if err != nil {
+		return err
+	}
+
+	return app.Run()
+}
+
+func main() {
+	if err := rootCommand.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 }

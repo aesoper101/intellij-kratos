@@ -12,6 +12,7 @@ import (
 	"github.com/aeoper101/kratos-layout/internal/data"
 	"github.com/aeoper101/kratos-layout/internal/server"
 	"github.com/aeoper101/kratos-layout/internal/service"
+	"github.com/aesoper101/kratos-utils/protobuf/types/confpb"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 )
@@ -19,7 +20,7 @@ import (
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+func wireApp(confServer *conf.Server, confData *conf.Data, registry *confpb.Registry, logger log.Logger) (*kratos.App, func(), error) {
 	dataData, cleanup, err := data.NewData(confData, logger)
 	if err != nil {
 		return nil, nil, err
@@ -30,9 +31,9 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	services := &service.Services{
 		GreeterService: greeterService,
 	}
-	grpcServer := server.NewGRPCServer(confServer, services, logger)
 	httpServer := server.NewHTTPServer(confServer, services, logger)
-	app := newApp(logger, grpcServer, httpServer)
+	grpcServer := server.NewGRPCServer(confServer, services, logger)
+	app := newApp(logger, httpServer, grpcServer, registry)
 	return app, func() {
 		cleanup()
 	}, nil

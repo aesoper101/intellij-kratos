@@ -7,6 +7,7 @@ import (
 	"github.com/aeoper101/kratos-layout/internal/service"
 	"github.com/aesoper101/kratos-utils/pkg/encoder"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/metrics"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/realip"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/requestid"
 	"github.com/aesoper101/kratos-utils/pkg/network"
 	"github.com/go-kratos/kratos/v2/log"
@@ -38,10 +39,13 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 			validate.Validator(),
 			metrics.Server(),
 		),
-		http.Filter(handlers.CORS(
-			handlers.AllowedOrigins([]string{"*"}),
-			handlers.AllowedMethods([]string{"GET", "POST"}),
-		)),
+		http.Filter(
+			handlers.CORS(
+				handlers.AllowedOrigins([]string{"*"}),
+				handlers.AllowedMethods([]string{"GET", "POST"}),
+			),
+			realip.Handler,
+		),
 		http.ResponseEncoder(encoder.ApiEncodeResponse()),
 		http.ErrorEncoder(encoder.ApiErrorEncoder()),
 	}

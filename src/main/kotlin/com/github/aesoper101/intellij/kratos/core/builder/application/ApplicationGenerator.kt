@@ -16,24 +16,24 @@ import com.intellij.openapi.vfs.VirtualFile
 
 
 class ApplicationGenerator(
-    private val module: Module,
-    private val projectDirectory: VirtualFile,
-    private val appName: String
+        private val module: Module,
+        private val projectDirectory: VirtualFile,
+        private val appName: String
 ) {
     fun doGenerate() {
         val assets = mutableListOf<GeneratorAsset>()
         projectDirectory
         assets.add(
-            GeneratorResource(
-                "api/$appName/v1",
-                javaClass.getResource("/other/kratos-monorepo-layout/api/helloworld/v1")!!
-            )
+                GeneratorResource(
+                        "api/$appName/v1",
+                        javaClass.getResource("/other/kratos-monorepo-layout/api/helloworld/v1")!!
+                )
         )
         assets.add(
-            GeneratorResource(
-                "app/$appName",
-                javaClass.getResource("/other/kratos-monorepo-layout/app/helloworld")!!
-            )
+                GeneratorResource(
+                        "app/$appName",
+                        javaClass.getResource("/other/kratos-monorepo-layout/app/helloworld")!!
+                )
         )
 
         GeneratorProcessor(module).execute(GeneratorAssetContext(assets, projectDirectory))
@@ -46,16 +46,21 @@ class ApplicationGenerator(
                 it.path.startsWith(projectDirectory.path + "/app/$appName") || it.path.startsWith(projectDirectory.path + "/api/$appName")
             }.forEach {
                 val content = FileUtil.read(it)
-                    ?.replace("api.helloworld.v1", "api.$appName.v1".lowercase())
-                    ?.replace(
-                        "${KratosConstants.KRATOS_MONOREPO_LAYOUT_URL}/api/helloworld",
-                        "$goModuleName/api/$appName"
-                    )
-                    ?.replace(
-                        "${KratosConstants.KRATOS_MONOREPO_LAYOUT_URL}/app/helloworld",
-                        "$goModuleName/app/$appName"
-                    )
-                    ?.replace(KratosConstants.KRATOS_MONOREPO_LAYOUT_URL, goModuleName)
+                        ?.replace("api.helloworld.v1", "api.$appName.v1".lowercase())
+                        ?.replace(
+                                "${KratosConstants.KRATOS_MONOREPO_LAYOUT_URL}/api/helloworld",
+                                "$goModuleName/api/$appName"
+                        )
+                        ?.replace(
+                                "${KratosConstants.KRATOS_MONOREPO_LAYOUT_NAME}/api/helloworld",
+                                "$goModuleName/api/$appName"
+                        )
+                        ?.replace(
+                                "${KratosConstants.KRATOS_MONOREPO_LAYOUT_URL}/app/helloworld",
+                                "$goModuleName/app/$appName"
+                        )
+                        ?.replace(KratosConstants.KRATOS_MONOREPO_LAYOUT_URL, goModuleName)
+                        ?.replace(KratosConstants.KRATOS_MONOREPO_LAYOUT_NAME, goModuleName)
 
                 if (content != null) {
                     it.setBinaryContent(content.toByteArray())

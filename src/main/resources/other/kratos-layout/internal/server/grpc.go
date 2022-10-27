@@ -5,6 +5,9 @@ import (
 	v1 "github.com/aeoper101/kratos-layout/api/helloworld/v1"
 	"github.com/aeoper101/kratos-layout/internal/conf"
 	"github.com/aeoper101/kratos-layout/internal/service"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/localize"
+	"github.com/go-kratos/kratos/v2/middleware/auth/jwt"
+	jwtv4 "github.com/golang-jwt/jwt/v4"
 
 	"github.com/aesoper101/kratos-utils/pkg/middleware/metrics"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/requestid"
@@ -21,7 +24,7 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, services *service.Services, logger log.Logger) *grpc.Server {
+func NewGRPCServer(c *conf.Server, services *service.Services, bundle *localize.I18nBundle, logger log.Logger) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(recovery.WithHandler(func(ctx context.Context, req, err interface{}) error {
@@ -34,7 +37,11 @@ func NewGRPCServer(c *conf.Server, services *service.Services, logger log.Logger
 			ratelimit.Server(),
 			metadata.Server(),
 			requestid.Server(),
+			localize.I18N(bundle),
 			validate.Validator(),
+			jwt.Server(func(token *jwtv4.Token) (interface{}, error) {
+				return []byte(c.Grpc.AuthKey.Value), nil
+			}),
 			metrics.Server(),
 		),
 	}

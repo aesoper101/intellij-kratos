@@ -6,6 +6,7 @@ import (
 	"github.com/aeoper101/kratos-layout/internal/conf"
 	"github.com/aeoper101/kratos-layout/internal/service"
 	"github.com/aesoper101/kratos-utils/pkg/encoder"
+	"github.com/aesoper101/kratos-utils/pkg/middleware/localize"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/metrics"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/realip"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/requestid"
@@ -23,7 +24,7 @@ import (
 )
 
 // NewHTTPServer new a HTTP server.
-func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, services *service.Services, bundle *localize.I18nBundle, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(recovery.WithHandler(func(ctx context.Context, req, err interface{}) error {
@@ -36,6 +37,7 @@ func NewHTTPServer(c *conf.Server, services *service.Services, logger log.Logger
 			ratelimit.Server(),
 			metadata.Server(),
 			requestid.Server(),
+			localize.I18N(bundle),
 			validate.Validator(),
 			metrics.Server(),
 		),

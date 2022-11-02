@@ -23,6 +23,7 @@ class SingleAppProjectBuilder(module: Module, settings: KratosNewProjectSettings
     }
 
 
+
     override fun afterDoGenerate(projectDirectory: VirtualFile) {
         VfsUtil.collectChildrenRecursively(projectDirectory).forEach {
             if (!it.isDirectory) {

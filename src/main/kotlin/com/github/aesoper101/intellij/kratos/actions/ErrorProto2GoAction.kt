@@ -58,6 +58,7 @@ class ErrorProto2GoAction :
                                 true, true, true, projectDirectory
                             )
                         }
+
                         else -> {
                             NotificationManager.getInstance().createNotification().error(project, it.message!!)
                         }
@@ -78,7 +79,7 @@ class ErrorProto2GoAction :
             file == null || file.isDirectory || !StringUtil.contains(
                 content!!,
                 "errors/errors.proto"
-            ) || file.extension != "proto" || (file.parent?.name != "api" && file.parent?.parent?.name != "api" && file.parent?.parent?.parent?.name != "api") -> {
+            ) || file.extension != "proto" -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

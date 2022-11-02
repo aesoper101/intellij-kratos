@@ -12,6 +12,7 @@ import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.vfs.VfsUtil
 
+import com.google.protobuf.DescriptorProtos.FileDescriptorProto;
 
 class ConfProto2GoAction :
         AnAction(KratosBundle.message("action.conf2go.name"), KratosBundle.message("action.conf2go.description"), null) {
@@ -38,6 +39,7 @@ class ConfProto2GoAction :
                     "--proto_path=./${confPath}",
                     "--proto_path=./third_party",
                     "--go_out=paths=source_relative:./${goOutfilePath}",
+                    "--go_opt=Mkratos/http/api.proto=github.com/aesoper101/kratos-utils/protobuf/types/httppb",
                     "--go_opt=Mkratos/conf/database.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
                     "--go_opt=Mkratos/conf/logger.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",
                     "--go_opt=Mkratos/conf/registry.proto=github.com/aesoper101/kratos-utils/protobuf/types/confpb",

@@ -71,14 +71,13 @@ class ValidateProto2GoAction :
     override fun update(e: AnActionEvent) {
         val file = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
-
         val content = file?.let { FileUtil.read(it) }
 
         when {
             file == null || file.isDirectory || !StringUtil.contains(
                 content!!,
                 "validate/validate.proto"
-            ) || file.extension != "proto" || (file.parent?.name != "api" && file.parent?.parent?.name != "api" && file.parent?.parent?.parent?.name != "api") -> {
+            ) || file.extension != "proto"  -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

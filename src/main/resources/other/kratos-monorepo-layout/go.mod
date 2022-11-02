@@ -3,8 +3,8 @@ module github.com/aesoper101/kratos-monorepo-layout
 go 1.18
 
 require (
-	entgo.io/ent v0.11.3
-	github.com/aesoper101/kratos-utils v0.0.0-20221027152849-e4bd7ce6697c
+	entgo.io/ent v0.11.4
+	github.com/aesoper101/kratos-utils v0.0.0-20221030042419-7f482bd190da
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
 	github.com/go-sql-driver/mysql v1.6.0
@@ -12,19 +12,19 @@ require (
 	github.com/google/wire v0.5.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/lib/pq v1.10.7
-	github.com/mattn/go-sqlite3 v1.14.15
-	github.com/spf13/cobra v1.6.0
+	github.com/mattn/go-sqlite3 v1.14.16
+	github.com/spf13/cobra v1.6.1
 	google.golang.org/genproto v0.0.0-20220524023933-508584e28198
 	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.1
 )
 
 require (
-	ariga.io/atlas v0.7.2-0.20220927111110-867ee0cca56a // indirect
+	ariga.io/atlas v0.7.3-0.20221011160332-3ca609863edd // indirect
 	github.com/BurntSushi/toml v1.2.0 // indirect
 	github.com/Shopify/sarama v1.36.0 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
-	github.com/aesoper101/go-utils v0.0.0-20220803075833-0a6959df6214 // indirect
+	github.com/aesoper101/go-utils v0.0.0-20221030041850-fa996fed123d // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/aliyun/aliyun-log-go-sdk v0.1.37 // indirect

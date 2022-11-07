@@ -1,0 +1,12 @@
+[
+  {
+    "locale": "en",
+    "key": "days-left",
+    "trans": "There is {0} day left"
+  },
+  {
+    "locale": "en",
+    "key": "startswith",
+    "trans": "{0} must start with the text '{1}'"
+  }
+]

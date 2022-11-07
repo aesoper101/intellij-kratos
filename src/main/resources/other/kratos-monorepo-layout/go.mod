@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	entgo.io/ent v0.11.4
-	github.com/aesoper101/kratos-utils v0.0.0-20221030042419-7f482bd190da
 	github.com/go-kratos/kratos/v2 v2.5.1
 	github.com/go-kratos/sentry v0.0.0-20211021071616-de3a2011c4e4
 	github.com/go-sql-driver/mysql v1.6.0
@@ -24,7 +23,8 @@ require (
 	github.com/BurntSushi/toml v1.2.0 // indirect
 	github.com/Shopify/sarama v1.36.0 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
-	github.com/aesoper101/go-utils v0.0.0-20221030041850-fa996fed123d // indirect
+	github.com/aesoper101/go-utils v1.0.0 // indirect
+	github.com/aesoper101/kratos-utils v1.0.0 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/aliyun/aliyun-log-go-sdk v0.1.37 // indirect
@@ -153,7 +153,7 @@ require (
 	golang.org/x/net v0.0.0-20221002022538-bcab6841153b // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

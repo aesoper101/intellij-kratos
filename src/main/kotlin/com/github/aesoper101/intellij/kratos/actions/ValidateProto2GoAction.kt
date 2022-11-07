@@ -18,7 +18,11 @@ import com.intellij.openapi.vfs.VfsUtil
 import java.io.File
 
 class ValidateProto2GoAction :
-    AnAction(KratosBundle.message("action.validate2go.name"), KratosBundle.message("action.validate2go.description"), null) {
+    AnAction(
+        KratosBundle.message("action.validate2go.name"),
+        KratosBundle.message("action.validate2go.description"),
+        null
+    ) {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
         val module = e.getData(PlatformDataKeys.MODULE) ?: return
@@ -43,9 +47,19 @@ class ValidateProto2GoAction :
                 "--proto_path=./${apiPath}",
                 "--proto_path=./third_party",
                 "--go_out=paths=source_relative:./${goOutfilePath}",
-                "--validate_out=paths=source_relative,lang=go:./${goOutfilePath}",
-                "./${filePath}"
             )
+
+
+            val content = FileUtil.read(file)
+
+            if (StringUtil.contains(content!!, "govalidate/validate.proto")) {
+                params.add("--govalidate_out=paths=source_relative:./${goOutfilePath}",)
+            } else if (StringUtil.contains(content, "validate/validate.proto")) {
+                params.add("--validate_out=paths=source_relative,lang=go:./${goOutfilePath}",)
+            }
+
+
+            params.add( "./${filePath}")
 
             GoExecutor.`in`(module).withExePath("protoc")
                 .withParameters(params)
@@ -58,6 +72,7 @@ class ValidateProto2GoAction :
                                 true, true, true, projectDirectory
                             )
                         }
+
                         else -> {
                             NotificationManager.getInstance().createNotification().error(project, it.message!!)
                         }
@@ -76,8 +91,11 @@ class ValidateProto2GoAction :
         when {
             file == null || file.isDirectory || !StringUtil.contains(
                 content!!,
+                "govalidate/validate.proto"
+            ) && !StringUtil.contains(
+                content,
                 "validate/validate.proto"
-            ) || file.extension != "proto"  -> {
+            ) || file.extension != "proto" -> {
                 e.presentation.isVisible = false
                 e.presentation.isEnabled = false
             }

@@ -27,7 +27,7 @@ class KratosProtoCreateFromTemplateHandler : DefaultCreateFromTemplateHandler() 
             props["GoPackageName"] =
                 "$goPackageName/$dirPath;" + dirPath.substringAfterLast("/").toSnakeCase()
             props["ProtoPackageName"] = dirPath.replace("/", ".").toSnakeCase()
-            props["JavaPackageName"] = dirPath.replace("/", ".").toSnakeCase()
+            props["JavaPackageName"] = dirPath.replace("/", ".").replace("-", "_").toSnakeCase()
             props["ServiceName"] = filename.substringBefore(".").toCamelCase()
         }
     }

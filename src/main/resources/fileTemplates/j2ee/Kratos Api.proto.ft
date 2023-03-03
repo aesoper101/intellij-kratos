@@ -8,7 +8,7 @@ option java_multiple_files = true;
 option java_package = "${JavaPackageName}";
 
 
-service ${ServiceName} {
+service ${ServiceName}Service {
   rpc Create${ServiceName} (Create${ServiceName}Request) returns (Create${ServiceName}Reply);
   rpc Update${ServiceName} (Update${ServiceName}Request) returns (Update${ServiceName}Reply);
   rpc Delete${ServiceName} (Delete${ServiceName}Request) returns (Delete${ServiceName}Reply);

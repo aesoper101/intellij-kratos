@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/aesoper101/kratos-utils/pkg/middleware/translator"
 
-	v1 "github.com/aeoper101/kratos-layout/api/helloworld/v1"
-	"github.com/aeoper101/kratos-layout/internal/biz"
+	v1 "github.com/aesoper101/kratos-layout/api/helloworld/v1"
+	"github.com/aesoper101/kratos-layout/internal/biz"
 )
 
 // GreeterService is a greeter service.

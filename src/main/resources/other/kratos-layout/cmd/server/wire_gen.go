@@ -7,12 +7,12 @@
 package main
 
 import (
-	"github.com/aeoper101/kratos-layout/internal/biz"
-	"github.com/aeoper101/kratos-layout/internal/conf"
-	"github.com/aeoper101/kratos-layout/internal/data"
-	"github.com/aeoper101/kratos-layout/internal/i18n"
-	"github.com/aeoper101/kratos-layout/internal/server"
-	"github.com/aeoper101/kratos-layout/internal/service"
+	"github.com/aesoper101/kratos-layout/internal/biz"
+	"github.com/aesoper101/kratos-layout/internal/conf"
+	"github.com/aesoper101/kratos-layout/internal/data"
+	"github.com/aesoper101/kratos-layout/internal/i18n"
+	"github.com/aesoper101/kratos-layout/internal/server"
+	"github.com/aesoper101/kratos-layout/internal/service"
 	"github.com/aesoper101/kratos-utils/bootstrap"
 )
 

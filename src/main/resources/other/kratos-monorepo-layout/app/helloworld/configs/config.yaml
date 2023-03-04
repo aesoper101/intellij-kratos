@@ -1,0 +1,24 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout:
+      seconds: 1
+  grpc:
+    addr: 0.0.0.0:9000
+#    不能直接写
+#    timeout: 1s
+    timeout:
+      seconds: 1
+
+data:
+  database:
+#    driver: mysql
+#    source: root:root@tcp(127.0.0.1:3306)/test
+    driver: postgres
+    source: host=127.0.0.1 port=5432 user=root dbname=idaas password=root sslmode=disable
+  redis:
+    addr: 127.0.0.1:6379
+    read_timeout:
+      seconds: 1
+    write_timeout:
+      seconds: 1

@@ -2,8 +2,6 @@ package com.github.aesoper101.intellij.kratos.wizard
 
 
 import com.github.aesoper101.intellij.kratos.KratosBundle
-import com.github.aesoper101.intellij.kratos.configuration.ConfigurationProvider
-import com.github.aesoper101.intellij.kratos.configuration.KratosConfiguration
 import com.github.aesoper101.intellij.kratos.configuration.TemplateType
 import com.github.aesoper101.intellij.kratos.project.KratosNewProjectSettings
 import com.goide.sdk.combobox.GoSdkChooserCombo
@@ -16,19 +14,16 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.LabeledComponent
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
-import com.intellij.openapi.ui.ValidationInfo
-import com.intellij.openapi.util.text.StringUtil
 
 import com.intellij.ui.dsl.builder.*
 import com.intellij.util.ui.UI.PanelFactory
-
 
 import javax.swing.*
 
 // see  vgoProjectGeneratorPeer
 class KratosProjectGeneratorPeer : GoProjectGeneratorPeer<KratosNewProjectSettings>() {
 
-    private val myEnvironmentField = VgoEnvironmentVariablesField(false)
+    private val myEnvironmentField = VgoEnvironmentVariablesField()
 
     private var templateType = TemplateType.SINGLE
 
